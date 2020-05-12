@@ -3,6 +3,8 @@ import './style.css';
 
 import M from 'materialize-css';
 
+import API from '../../../../../../utils/API'
+
 
 function validate(state) {
     // true means invalid, so our conditions got reversed
@@ -51,6 +53,26 @@ class AddStaff extends Component {
         if (this.canBeSubmitted()) {
             // Sends new Item to DB, success / fail toasts
             console.log(this.state)
+            API.addNewStaff('session placeholder', { name: { first: this.state.formData.firstName, last: this.state.formData.lastName }, pin: this.state.formData.pin })
+                .then(res => {
+                    // toast item added
+                    M.toast({
+                        html: res.data.name.first + ' ' + res.data.name.last + ' Added!',
+                        classes: 'greenToast'
+                    });
+
+                    // Clear text inputs
+                    this.refs.form.reset();
+                    //refresh parent
+                    this.props.updateOnNewItem();
+                })
+                .catch(res => {
+                    M.toast({
+                        html: 'Unable To Add Item',
+                        classes: 'redToast'
+                    });
+                    console.log(res)
+                });
         } else {
             M.toast({ html: 'Error Adding Staff', classes: 'redToast' });
         }
