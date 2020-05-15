@@ -19,23 +19,27 @@ router
 
         const query = req.query;
 
-        Staff.find(query)
-            .sort({ _id: -1 })
+        Staff.find(query).select('-session -pin -password -salt') //Omit all 'secure' data
+            .sort({ lastName: 1 })
             .then(function (staff) {
                 res.status(200).json(staff);
             })
             .catch(function (err) {
+                console.log(err)
                 res.status(500).json(err);
             });
     })
     // POST route for creating a user
     // Add authentification later
     .post(function (req, res) {
-        const pin = hashPass(req.body.pin);
+        const password = hashPass(req.body.password);
         const request = {
-            name: req.body.name,
-            pin: pin.hash,
-            salt: pin.salt
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            displayName: req.body.displayName,
+            pin: req.body.pin,
+            password: password.hash,
+            salt: password.salt
         };
 
         Staff.create(request)

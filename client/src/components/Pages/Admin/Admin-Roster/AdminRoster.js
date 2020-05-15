@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import AddStaff from './local-components/AddStaff';
-
+import AllStaff from './local-components/AllStaff';
 
 class AdminRoster extends Component {
     constructor(props) {
@@ -17,8 +17,10 @@ class AdminRoster extends Component {
         return (
             <div className="container">
                 <div className="row">
-                    <div className="col s2">Working Staff</div>
-                    <div className="col s2">All Staff w/search</div>
+                    <div className="col s6">Working Staff</div>
+                    <div className="col s6">
+                        <AllStaff />
+                    </div>
                 </div>
                 <AddStaff />
             </div>

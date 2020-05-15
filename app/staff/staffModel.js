@@ -9,9 +9,20 @@ const Schema = mongoose.Schema;
 // Define User schema
 const staffSchema = new Schema(
     {
-        name: {
-            first: { type: String, trim: true, lowercase: true },
-            last: { type: String, trim: true, lowercase: true }
+
+        firstName: {
+            type: String,
+            trim: true,
+            lowercase: true
+        },
+        lastName: {
+            type: String,
+            trim: true,
+            lowercase: true
+        },
+        displayName: {
+            type: String,
+            trim: true,
         },
         checkouts: [
             {
@@ -20,6 +31,16 @@ const staffSchema = new Schema(
             }
         ],
         pin: {
+            unique: true,
+            type: Number,
+            validate: {
+                validator: function (v) {
+                    return /[0-9]{4}/.test(v);
+                },
+                message: '{VALUE} is not a valid 4 digit number!'
+            }
+        },
+        password: {
             required: true,
             type: String
         },

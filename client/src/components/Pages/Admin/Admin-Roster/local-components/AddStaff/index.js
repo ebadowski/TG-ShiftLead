@@ -11,7 +11,8 @@ function validate(state) {
     return {
         firstName: state.firstName == null,
         lastName: state.lastName == null,
-        pin: state.pin == null
+        pin: state.pin == null,
+        password: state.password == null
     };
 }
 
@@ -23,7 +24,9 @@ class AddStaff extends Component {
             formData: {
                 firstName: null,
                 lastName: null,
-                pin: null
+                displayName: null,
+                pin: null,
+                password: null
             }
         };
     }
@@ -45,26 +48,28 @@ class AddStaff extends Component {
                     : event.target.value;
 
         this.state.formData[field] = value;
-        this.forceUpdate(); //necessary? 
+        this.forceUpdate();
     };
 
     handleFormSubmit = event => {
         event.preventDefault();
         if (this.canBeSubmitted()) {
             // Sends new Item to DB, success / fail toasts
-            console.log(this.state)
-            API.addNewStaff('session placeholder', { name: { first: this.state.formData.firstName, last: this.state.formData.lastName }, pin: this.state.formData.pin })
+            let formData = this.state.formData;
+            formData.displayName = formData.firstName.charAt(0).toUpperCase() + formData.firstName.slice(1) + ' ' + formData.lastName.charAt(0).toUpperCase() + formData.lastName.slice(1);
+           
+            API.addNewStaff('session placeholder', formData)
                 .then(res => {
                     // toast item added
                     M.toast({
-                        html: res.data.name.first + ' ' + res.data.name.last + ' Added!',
+                        html: res.data.displayName + ' Added!',
                         classes: 'greenToast'
                     });
 
                     // Clear text inputs
                     this.refs.form.reset();
                     //refresh parent
-                    this.props.updateOnNewItem();
+                   // this.props.updateOnNewItem();
                 })
                 .catch(res => {
                     M.toast({
@@ -126,9 +131,20 @@ class AddStaff extends Component {
                                 value={this.state.inputVal}
                                 onChange={this.handleInputChange}
                             />
-                            <label htmlFor="pin">Pin</label>
+                            <label htmlFor="pin">TG Pin</label>
                         </div>
+                        <div className="input-field col s6">
+                            <input
+                                id="password"
+                                type="password"
+                                className="validate invalid"
+                                onChange={this.handleInputChange}
+                            />
+                            <label htmlFor="password">Password</label>
+                        </div>
+                    </div>
 
+                    <div className="row">
                         <a
                             href="#!"
                             disabled={isDisabled}
