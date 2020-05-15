@@ -8,10 +8,16 @@ const router = require('express').Router(); // Create a Router instance
 const staff = require('./staff');
 
 
+// Require authentication routes
+const auth = require('./auth');
 
 // API routes
 router.use('/api/staff', staff.controller);
 
+// Authentication routes
+router.use('/login', auth.login);
+router.use('/password', auth.password);
+router.use('/session', auth.session);
 
 // If no API routes are hit, send React app
 router.use(function (req, res) {

@@ -35,7 +35,7 @@ const staffSchema = new Schema(
             type: Number,
             validate: {
                 validator: function (v) {
-                    return /[0-9]{4}/.test(v);
+                    return /^[0-9]{4}$/.test(v);
                 },
                 message: '{VALUE} is not a valid 4 digit number!'
             }
@@ -50,6 +50,14 @@ const staffSchema = new Schema(
         },
         session: {
             default: null,
+            type: String
+        },
+        role: { 
+            enum: ['admin', 'user', 'shiftlead'],
+            default: 'user',
+            lowercase: true,
+            required: true,
+            trim: true,
             type: String
         }
     },

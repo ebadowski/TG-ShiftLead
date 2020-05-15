@@ -32,6 +32,7 @@ router
     // POST route for creating a user
     // Add authentification later
     .post(function (req, res) {
+        console.log(req.body)
         const password = hashPass(req.body.password);
         const request = {
             firstName: req.body.firstName,
