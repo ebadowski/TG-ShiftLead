@@ -2,6 +2,7 @@
 
 // Dependencies
 const router = require('express').Router(); // Create a Router instance
+const hashPass = require('hashpass');
 
 // Require User model
 const Staff = require('./staffModel');
@@ -30,9 +31,11 @@ router
     // POST route for creating a user
     // Add authentification later
     .post(function (req, res) {
+        const pin = hashPass(req.body.pin);
         const request = {
             name: req.body.name,
-            pin: req.body.pin,
+            pin: pin.hash,
+            salt: pin.salt
         };
 
         Staff.create(request)
@@ -40,6 +43,7 @@ router
                 res.status(200).json(staff);
             })
             .catch(function (err) {
+                console.log(err)
                 res.status(500).json(err);
             });
     });

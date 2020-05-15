@@ -20,13 +20,8 @@ const staffSchema = new Schema(
             }
         ],
         pin: {
-            type: Number,
-            validate: {
-                validator: function (v) {
-                    return /d{4}/.test(v);
-                },
-                message: '{VALUE} is not a valid 4 digit number!'
-            }
+            required: true,
+            type: String
         },
         salt: {
             required: true,
