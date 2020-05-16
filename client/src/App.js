@@ -10,6 +10,7 @@ import {
 
 import {
     Header,
+    HeaderLink,
     Wrapper
 } from './components/common';
 import Login from './components/Login';
@@ -28,15 +29,15 @@ import {
 
 class App extends Component {
     state = {
-        links: {
-            admin: ['dashboard', 'roster', 'insight', 'map'],
-            user: ['floorplan']
-        },
         init: true,
         path: '',
         sessionToken: '',
         sessionUser: {},
-        switchState: 'default' // enums: ['admin', 'user', 'login', 'default']
+        switchState: 'default',  // enums: ['admin', 'user', 'login', 'default']
+        links: {
+            admin: ['dashboard', 'map', 'insight', 'roster' ],
+            user: ['dashboard', 'history']
+        },
     };
 
 
@@ -115,7 +116,11 @@ class App extends Component {
     //Render Admin Routes
     renderAdminRoutes = () => (
         <Router>
-            {/* HEADER */}
+            <Header logout={this.handleLogout}>
+                {this.state.links.admin.map(link => (
+                    <HeaderLink link={'/' + link}>{link}</HeaderLink>
+                ))}
+            </Header>
             <Wrapper>
                 <Switch>
                     <Route
@@ -135,7 +140,7 @@ class App extends Component {
                             />
                         )}
                     />
-                    
+
                     <Route
                         exact
                         path="/login"
@@ -156,7 +161,11 @@ class App extends Component {
     // Render user nav and routes
     renderUserRoutes = () => (
         <Router>
-            {/* HEADER */}
+            <Header logout={this.handleLogout}>
+                {this.state.links.user.map(link => (
+                    <HeaderLink link={'/' + link}>{link}</HeaderLink>
+                ))}
+            </Header>
             <Wrapper>
                 <Switch>
                     <Route
@@ -169,6 +178,19 @@ class App extends Component {
                         )}
                     />
                 </Switch>
+
+                <Route
+                        exact
+                        path="/login"
+                        render={() => (
+                            <Redirect
+                                to={
+                                    this.state.path === '/login' ? '/dashboard' : this.state.path
+                                }
+                            />
+                        )}
+                    />
+                    <Route render={() => <Redirect to={'/dashboard'} />} />
             </Wrapper>
         </Router>
     );

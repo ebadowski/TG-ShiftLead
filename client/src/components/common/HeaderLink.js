@@ -6,14 +6,14 @@ function HeaderLink(props) {
     function getIcon(s) {
         return s === 'dashboard'
             ? 'dashboard'
-            : s === 'action'
-                ? 'assignment'
-                : s === 'inventory'
-                    ? 'archive'
-                    : s === 'users'
-                        ? 'people'
-                        : s === 'checkout'
-                            ? 'shopping_cart'
+            : s === 'roster'
+                ? 'recent_actors'
+                : s === 'insight'
+                    ? 'multiline_chart'
+                    : s === 'map'
+                        ? 'map'
+                        : s === 'history'
+                            ? 'access_time'
                             : 'help'
     }
 

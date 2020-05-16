@@ -15,7 +15,7 @@ class Floorplan extends Component {
         return (
             <div className="container">
                 <div className="row">
-                    HELLO
+                    HELLO FROM UDASH
                 </div>
             </div>
         );
