@@ -3,7 +3,7 @@ import API from '../utils/API';
 
 class Login extends Component {
     state = {
-        pin: null
+        pin: ''
     };
 
     handleChange = event => {

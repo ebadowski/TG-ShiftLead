@@ -85,15 +85,15 @@ class App extends Component {
     };
     handleLogout = () => {
         API.logout()
-          .then(res => {
-            localStorage.removeItem('sessionid');
-            this.setState({
-              sessionUser: {},
-              switchState: 'login'
-            });
-          })
-          .catch(err => console.log(err));
-      };
+            .then(res => {
+                localStorage.removeItem('sessionid');
+                this.setState({
+                    sessionUser: {},
+                    switchState: 'login'
+                });
+            })
+            .catch(err => console.log(err));
+    };
 
     // Render login route
     renderLoginRoutes = () => (
@@ -135,6 +135,19 @@ class App extends Component {
                             />
                         )}
                     />
+                    
+                    <Route
+                        exact
+                        path="/login"
+                        render={() => (
+                            <Redirect
+                                to={
+                                    this.state.path === '/login' ? '/dashboard' : this.state.path
+                                }
+                            />
+                        )}
+                    />
+                    <Route render={() => <Redirect to={'/dashboard'} />} />
                 </Switch>
             </Wrapper>
         </Router>

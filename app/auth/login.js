@@ -34,10 +34,6 @@ router
                         { session: uuid },
                         { new: true }
                     )
-                        .populate({
-                            path: 'chits',
-                            options: { sort: { _id: -1 } }
-                        })
                         .then(function (dbUser) {
                             res.status(200)
                                 .header('x-session-token', dbUser.session)

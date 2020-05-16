@@ -15,10 +15,6 @@ router
     .get(function(req, res) {
         if (req.headers['x-session-token']) {
             User.findOne({ session: req.headers['x-session-token'] })
-                .populate({
-                    path: 'chits',
-                    options: { sort: { _id: -1 } }
-                })
                 .then(function(user) {
                     if (user) {
                         res.status(200).json(user);
